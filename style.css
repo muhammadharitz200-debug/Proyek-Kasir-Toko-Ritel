@@ -1,0 +1,435 @@
+/* Dark Mode Colors */
+[data-theme="dark"] {
+    --glass: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] body {
+    background: #0f172a;
+    color: #f8fafc;
+}
+
+[data-theme="dark"] .sidebar-card, [data-theme="dark"] .glass-card {
+    background: var(--glass);
+}
+
+[data-theme="dark"] aside .sidebar a {
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .product-item, [data-theme="dark"] .input-group input {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+:root {
+    --p-color: #6366f1;
+    --s-color: #22c55e;
+    --d-color: #ef4444;
+    --glass: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+body {
+    background: #f0f3ff;
+    overflow-x: hidden;
+    color: #1e293b;
+    min-height: 100vh;
+}
+
+/* Background Decorations */
+.bg-decoration {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: -1;
+}
+.blur-1 { width: 400px; height: 400px; background: rgba(99, 102, 241, 0.15); top: -100px; right: -100px; }
+.blur-2 { width: 300px; height: 300px; background: rgba(34, 197, 94, 0.1); bottom: -50px; left: -50px; }
+.blur-3 { width: 250px; height: 250px; background: rgba(239, 68, 68, 0.05); top: 40%; left: 20%; }
+
+.container {
+    display: grid;
+    grid-template-columns: 16rem auto; /* diperkecil dari 18rem */
+    width: 98%;
+    margin: 0 auto;
+    gap: 1.5rem;
+}
+
+/* Glass Sidebar */
+aside { height: 100vh; padding: 1.5rem 0; }
+.sidebar-card {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    height: 100%;
+    border-radius: 2.5rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow);
+}
+
+aside .logo { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 3rem; }
+aside .logo span { color: var(--p-color); font-size: 2.2rem; }
+
+aside .sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem;
+    color: #64748b;
+    border-radius: 1.2rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-bottom: 0.5rem;
+}
+
+aside .sidebar a.active {
+    background: var(--p-color);
+    color: white;
+    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+    transform: scale(1.05);
+}
+
+/* Main Content Area */
+main { padding: 1.5rem 0; }
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+/* Glass Cards */
+.glass-card {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 2rem;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+}
+.glass-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); }
+
+/* Stat Cards */
+.insights { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+.blue-glow .card-icon { background: rgba(99, 102, 241, 0.15); color: var(--p-color); }
+.green-glow .card-icon { background: rgba(34, 197, 94, 0.15); color: var(--s-color); }
+.red-glow .card-icon { background: rgba(239, 68, 68, 0.15); color: var(--d-color); }
+
+/* Grid Visual Tengah */
+.main-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.visual-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    height: 200px;
+    padding-top: 1rem;
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 1.2rem;
+    margin-top: 1rem;
+}
+
+/* Table */
+table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+table th { text-align: left; padding: 1.2rem; color: #64748b; font-weight: 600; }
+table td { padding: 1.2rem; border-top: 1px solid rgba(0,0,0,0.03); }
+
+.admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
+.avatar {
+    width: 40px; height: 40px;
+    background: var(--p-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+/* Form Styling */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.input-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.input-group input {
+    padding: 0.8rem 1rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.5);
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+.input-group input:focus {
+    border-color: var(--p-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.main-btn {
+    width: 100%;
+    padding: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 1.2rem;
+}
+
+/* Table Styling Detail */
+.table-container {
+    overflow-x: auto;
+    margin-top: 1rem;
+}
+
+#table-stok th {
+    background: rgba(0,0,0,0.02);
+    padding: 1rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#table-stok td {
+    padding: 1.2rem 1rem;
+}
+
+.stok-badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.8rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.kasir-wrapper {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+@media (max-width: 1024px) {
+    .kasir-wrapper { grid-template-columns: 1fr; }
+}
+
+.modern-select {
+    padding: 0.8rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: white;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.kasir-receipt {
+    background: white;
+    border: 2px dashed #cbd5e1; /* Gaya seperti struk */
+}
+
+.receipt-header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.receipt-body {
+    min-height: 150px;
+    padding: 1rem 0;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.total-row h2 {
+    color: var(--p-color);
+}
+
+.btn-success {
+    background: var(--s-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-success:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}
+
+/* CSS KHUSUS PRINT */
+@media print {
+    /* Sembunyikan semua elemen kecuali struk */
+    aside, .bg-decoration, .card-header, .form-section, 
+    .menu-item, .btn-primary, .btn-icon, header, .sidebar-card {
+        display: none !important;
+    }
+
+    body {
+        background: white;
+        padding: 0;
+        margin: 0;
+    }
+
+    .container {
+        display: block;
+        width: 100%;
+    }
+
+    /* Ubah tampilan keranjang menjadi struk */
+    .kasir-receipt {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 80mm; /* Standar lebar printer thermal */
+        border: none;
+        box-shadow: none;
+        padding: 10px;
+        font-family: 'Courier New', Courier, monospace; /* Font struk klasik */
+    }
+
+    #receipt-items {
+        border-bottom: 1px dashed #000;
+        margin-bottom: 10px;
+    }
+
+    .main-title, #current-date {
+        display: none;
+    }
+}
+
+@media print {
+    /* Sembunyikan elemen yang tidak perlu diprint */
+    aside, .bg-decoration, header, .kasir-main, .kasir-actions, .btn-success, .material-icons-sharp {
+        display: none !important;
+    }
+
+    body { background: white; }
+    .container { display: block; width: 100%; }
+    main { padding: 0; }
+
+    /* Atur tampilan struk agar rapi di kertas */
+    .kasir-receipt {
+        border: none !important;
+        box-shadow: none !important;
+        width: 100%;
+        max-width: 80mm; /* Standar printer thermal */
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    .print-only { display: block !important; }
+    .glass-card { backdrop-filter: none !important; background: white !important; }
+}
+
+.blue-glow { box-shadow: 0 10px 20px rgba(99, 102, 241, 0.1); }
+.green-glow { box-shadow: 0 10px 20px rgba(34, 197, 94, 0.1); }
+.red-glow { box-shadow: 0 10px 20px rgba(239, 68, 68, 0.1); }
+
+/* Membuat tabel laporan lebih rapi */
+#body-laporan tr:hover {
+    transition: 0.3s;
+}
+
+.visual-bars {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 200px;
+    padding-top: 20px;
+    gap: 10px;
+}
+
+.bar-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.bar {
+    width: 100%;
+    background: var(--p-color);
+    border-radius: 5px 5px 0 0;
+    position: relative;
+    transition: all 0.3s ease;
+    min-height: 5px;
+}
+
+.bar:hover {
+    filter: brightness(1.2);
+    cursor: pointer;
+}
+
+.bar-value {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.bar-label {
+    margin-top: 10px;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+.stok-aman { background: rgba(34, 197, 94, 0.1); color: var(--s-color); }
+.stok-kritis { background: rgba(239, 68, 68, 0.1); color: var(--d-color); }

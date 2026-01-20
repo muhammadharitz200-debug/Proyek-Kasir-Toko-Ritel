@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KasirPro Ultimate Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+<body>
+    <div class="bg-decoration blur-1 no-print"></div>
+    <div class="bg-decoration blur-2 no-print"></div>
+    <div class="bg-decoration blur-3 no-print"></div>
+
+    <div class="container">
+        <aside class="no-print">
+            <div class="sidebar-card">
+                <div class="top">
+                    <div class="logo">
+                        <span class="material-icons-sharp">rocket_launch</span>
+                        <h2>KASIR<span class="primary">PRO</span></h2>
+                    </div>
+                </div>
+
+                <div class="sidebar">
+                    <a onclick="showPage('Dashboard')" id="menu-Dashboard" class="menu-item active">
+                        <span class="material-icons-sharp">grid_view</span><h3>Dashboard</h3>
+                    </a>
+                    <a onclick="showPage('Stok')" id="menu-Stok" class="menu-item">
+                        <span class="material-icons-sharp">inventory</span><h3>Manajemen Stok</h3>
+                    </a>
+                    <a onclick="showPage('Transaksi')" id="menu-Transaksi" class="menu-item">
+                        <span class="material-icons-sharp">point_of_sale</span><h3>Kasir</h3>
+                    </a>
+                    <a onclick="showPage('Laporan Laba Rugi')" id="menu-Laporan-Laba-Rugi" class="menu-item">
+                        <span class="material-icons-sharp">analytics</span><h3>Laporan</h3>
+                    </a>
+                    <a onclick="showPage('Biaya Operasional')" id="menu-Biaya-Operasional" class="menu-item">
+                        <span class="material-icons-sharp">payments</span><h3>Biaya Operasional</h3>
+                    </a>
+                    <a onclick="toggleDarkMode()" class="menu-item">
+                        <span class="material-icons-sharp">dark_mode</span><h3>Mode Gelap</h3>
+                    </a>
+
+                    <div style="padding: 1.5rem 1rem 1rem 1rem; border-top: 1px solid rgba(0,0,0,0.05); margin-top: 1rem;">
+                        <p style="font-size: 0.65rem; color: #64748b; margin-bottom: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">Data Management</p>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <button onclick="backupData()" class="btn-primary" style="width: 100%; padding: 0.7rem; border-radius: 0.8rem; display: flex; align-items: center; justify-content: flex-start; gap: 10px; font-size: 0.75rem; cursor: pointer; border: none; color: white;">
+                                <span class="material-icons-sharp" style="font-size: 18px;">download</span> <b>Backup (.json)</b>
+                            </button>
+                            
+                            <button onclick="document.getElementById('fileInput').click()" style="width: 100%; padding: 0.7rem; border-radius: 0.8rem; border: 1px solid var(--p-color); background: rgba(99, 102, 241, 0.05); color: var(--p-color); display: flex; align-items: center; justify-content: flex-start; gap: 10px; font-size: 0.75rem; cursor: pointer;">
+                                <span class="material-icons-sharp" style="font-size: 18px;">upload</span> <b>Restore Data</b>
+                            </button>
+                            <input type="file" id="fileInput" style="display: none;" accept=".json" onchange="restoreData(event)">
+
+                            <button onclick="eksporKeExcel()" style="width: 100%; padding: 0.7rem; border-radius: 0.8rem; border: none; background: #22c55e; color: white; display: flex; align-items: center; justify-content: flex-start; gap: 10px; font-size: 0.75rem; cursor: pointer; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);">
+                                <span class="material-icons-sharp" style="font-size: 18px;">table_view</span> <b>Ekspor Laporan</b>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-footer">
+                    <div class="admin-profile">
+                        <div class="avatar">AD</div>
+                        <div class="admin-info">
+                            <p><b>Admin Pro</b></p>
+                            <small>Superuser</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main>
+            <header class="main-header no-print">
+                <div class="header-left">
+                    <h1 id="main-title">Dashboard Overview</h1>
+                    <p class="text-muted" id="current-date"></p>
+                </div>
+               <div class="header-right" style="position: relative;">
+                    <button class="btn-icon" onclick="toggleNotif()" id="notif-btn">
+                        <span class="material-icons-sharp">notifications</span>
+                        <span class="badge" id="notif-badge" style="display: none;"></span>
+                    </button>
+                    
+                    <button class="btn-icon" onclick="toggleSettings()">
+                        <span class="material-icons-sharp">settings</span>
+                    </button>
+
+                    <div id="notif-dropdown" class="card glass-card shadow" style="display: none; position: absolute; top: 60px; right: 0; width: 280px; z-index: 100; padding: 1rem;">
+                        <h3 style="font-size: 1rem; margin-bottom: 0.5rem; border-bottom: 1px solid #eee;">Pemberitahuan</h3>
+                        <div id="notif-content" style="max-height: 200px; overflow-y: auto; font-size: 0.85rem;">
+                            <p class="text-muted">Tidak ada notifikasi baru.</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div id="page-Dashboard" class="page-content">
+                <div class="insights">
+                    <div class="card glass-card blue-glow">
+                        <div class="card-icon"><span class="material-icons-sharp">payments</span></div>
+                        <div class="card-info">
+                            <h3>Total Omzet</h3>
+                            <h1 id="dash-omzet">Rp 0</h1>
+                            <small class="text-success">↑ 12% dari kemarin</small>
+                        </div>
+                    </div>
+                    <div class="card glass-card red-glow">
+                        <span class="material-icons-sharp">payments</span>
+                        <div class="middle">
+                            <div class="left">
+                                <h3>Biaya Operasional</h3>
+                                <h1 id="dash-biaya" style="color: var(--d-color);">Rp 0</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card glass-card green-glow">
+                        <div class="card-icon"><span class="material-icons-sharp">trending_up</span></div>
+                        <div class="card-info">
+                            <h3>Laba Bersih</h3>
+                            <h1 id="dash-laba">Rp 0</h1>
+                            <small class="text-success">Profit Stabil</small>
+                        </div>
+                    </div>
+                    <div class="card glass-card red-glow">
+                        <div class="card-icon"><span class="material-icons-sharp">inventory_2</span></div>
+                        <div class="card-info">
+                            <h3>Stok Kritis</h3>
+                            <h1 id="dash-stok-low">0</h1>
+                            <small class="text-danger">Segera Restok</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-grid">
+                    <div class="card glass-card chart-container">
+                        <div class="card-header">
+                            <h2>Analisis Penjualan Mingguan</h2>
+                            <span class="material-icons-sharp">more_vert</span>
+                        </div>
+                        <div class="visual-bars" id="bar-chart"></div>
+                    </div>
+
+                    <div class="card glass-card top-products">
+                        <div class="card-header">
+                            <h2>Produk Terlaris</h2>
+                        </div>
+                        <div class="product-list" id="top-products-list">
+                            <div class="product-item">
+                                <div class="p-icon">📦</div>
+                                <div class="p-details">
+                                    <p><b>Belum ada data</b></p>
+                                    <small>Lakukan transaksi pertama</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card glass-card recent-activity">
+                    <div class="card-header">
+                        <h2>Riwayat Transaksi Terbaru</h2>
+                        <button class="btn-small" onclick="showPage('Laporan Laba Rugi')">Lihat Semua</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Produk</th>
+                                <th>Qty</th>
+                                <th>Total Bayar</th>
+                                <th>Waktu</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-riwayat"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="page-Stok" class="page-content" style="display:none;">
+                <div class="card glass-card form-section">
+                    <div class="card-header">
+                        <h2><span class="material-icons-sharp">add_box</span> Tambah Produk Baru</h2>
+                    </div>
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label>Nama Produk</label>
+                            <input type="text" id="stok-nama" placeholder="Contoh: Kopi Susu">
+                        </div>
+                        <div class="input-group">
+                            <label>Jumlah Stok</label>
+                            <input type="number" id="stok-jumlah" placeholder="0">
+                        </div>
+                        <div class="input-group">
+                            <label>Harga Modal (Rp)</label>
+                            <input type="number" id="stok-modal" placeholder="Contoh: 15000">
+                        </div>
+                        <div class="input-group">
+                            <label>Harga Jual (Rp)</label>
+                            <input type="number" id="stok-jual" placeholder="Contoh: 20000">
+                        </div>
+                    </div>
+                    <button class="btn-primary main-btn" onclick="addStok()">
+                        <span class="material-icons-sharp">save</span> Simpan Persediaan
+                    </button>
+                </div>
+
+                <div class="card glass-card table-section" style="margin-top: 2rem;">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                        <h2><span class="material-icons-sharp">inventory_2</span> Daftar Persediaan Barang</h2>
+                        <div style="display: flex; align-items: center; background: rgba(255,255,255,0.5); padding: 5px 15px; border-radius: 10px; border: 1px solid var(--glass-border);">
+                            <span class="material-icons-sharp" style="font-size: 20px; color: var(--p-color);">search</span>
+                            <input type="text" id="search-stok" placeholder="Cari nama barang..." onkeyup="cariStok()" style="border: none; background: transparent; outline: none; padding: 8px; font-size: 0.9rem; width: 200px;">
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table id="table-stok">
+                            <thead>
+                                <tr>
+                                    <th>Info & Tanggal Masuk</th>
+                                    <th>Status & Stok</th>
+                                    <th>Harga Modal</th>
+                                    <th>Harga Jual</th>
+                                    <th>Total Nilai Aset</th>
+                                    <th>Potensi Laba/Pcs</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-Transaksi" class="page-content" style="display:none;">
+    <div class="kasir-wrapper">
+        <div class="card glass-card kasir-main no-print">
+            <div class="card-header">
+                <h2><span class="material-icons-sharp">shopping_cart</span> Pilih Produk</h2>
+            </div>
+
+            <div class="glass-card" style="margin-bottom: 1rem; border: 1px solid rgba(0,0,0,0.1); padding: 10px;">
+                <div id="reader" style="width: 100%; border-radius: 1rem; overflow: hidden;"></div>
+                <button class="btn-primary main-btn" style="margin-top: 10px; width: 100%; background: #22c55e;" onclick="startScanner()">
+                    <span class="material-icons-sharp">qr_code_scanner</span> Mulai Scan Barcode
+                </button>
+            </div>
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>Cari & Pilih Produk</label>
+                    <div style="display: flex; align-items: center; background: white; padding: 2px 10px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 5px;">
+                        <span class="material-icons-sharp" style="font-size: 18px; color: #999;">search</span>
+                        <input type="text" id="search-kasir" placeholder="Ketik nama produk..." onkeyup="filterProdukKasir()" style="border: none; outline: none; padding: 8px; width: 100%; font-size: 0.85rem;">
+                    </div>
+                    <select id="kasir-pilih-produk" class="modern-select">
+                        <option value="">-- Pilih Barang --</option>
+                    </select>
+                </div>
+
+### Penjelasan Mengapa Ditaruh di Sana:
+1.  **Kemudahan Akses**: Kasir bisa langsung memilih apakah ingin mengetik nama barang secara manual atau menggunakan kamera (scan) di satu tempat yang sama.
+2.  **Rapi**: Dengan menaruhnya di dalam `kasir-main`, kotak scanner akan sejajar dengan form input lainnya dan tidak berantakan saat halaman dipindah-pindah.
+3.  **No-Print**: Karena berada di dalam pembungkus `no-print`, kotak kamera scanner ini tidak akan ikut muncul saat Anda mencetak struk belanja.
+
+**Catatan Tambahan:**
+Pastikan di dalam file `script.js` Anda sudah memiliki fungsi `startScanner()` agar tombol tersebut bisa menyalakan kamera. Karena di bagian atas HTML Anda sudah ada `<script src="https://unpkg.com/html5-qrcode"></script>`, maka fiturnya seharusnya sudah siap digunakan.
+                        
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label>Cari & Pilih Produk</label>
+                                <div style="display: flex; align-items: center; background: white; padding: 2px 10px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 5px;">
+                                    <span class="material-icons-sharp" style="font-size: 18px; color: #999;">search</span>
+                                    <input type="text" id="search-kasir" placeholder="Ketik nama produk..." onkeyup="filterProdukKasir()" style="border: none; outline: none; padding: 8px; width: 100%; font-size: 0.85rem;">
+                                </div>
+                                <select id="kasir-pilih-produk" class="modern-select">
+                                    <option value="">-- Pilih Barang --</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>Jumlah (Qty)</label>
+                                <input type="number" id="kasir-qty" value="1" min="1">
+                            </div>
+                        </div>
+
+                        <div class="kasir-actions">
+                            <button class="btn-primary main-btn" onclick="prosesTransaksi()">
+                                <span class="material-icons-sharp">add_shopping_cart</span> Tambah ke Keranjang
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card glass-card kasir-receipt">
+                        <div id="print-area">
+                            <div class="receipt-header" style="text-align: center; margin-bottom: 1rem;">
+                                <h2 style="text-transform: uppercase; margin-bottom: 5px;">TOKO HARITZ</h2>
+                                <p style="font-size: 0.7rem; color: #64748b;">Jl. Kp. Sawah No.9, Cibinong</p>
+                                <p style="font-size: 0.7rem; color: #64748b;" id="receipt-date"></p>
+                                <div style="border-top: 1px dashed #ccc; margin: 10px 0;"></div>
+                            </div>
+
+                            <div id="receipt-items" class="receipt-body">
+                                <p class="text-muted" style="text-align: center; padding: 1rem;">Keranjang kosong</p>
+                            </div>
+                            
+                            <div style="border-top: 1px dashed #ccc; margin: 10px 0;"></div>
+
+                            <div class="receipt-footer">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Total:</span>
+                                    <span id="total-tagihan" style="font-weight: 800;">Rp 0</span>
+                                </div>
+                                
+                                <div class="no-print" style="margin-top: 15px; background: rgba(0,0,0,0.03); padding: 10px; border-radius: 8px;">
+                                    <div class="input-group" style="margin-bottom: 10px;">
+                                        <label style="font-size: 0.7rem;">Nominal Bayar (Rp)</label>
+                                        <input type="number" id="bayar-nominal" placeholder="0" oninput="hitungKembalian()" style="padding: 8px; font-weight: bold;">
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span style="font-size: 0.8rem; font-weight: bold;">Kembalian:</span>
+                                        <span id="kembalian-display" style="font-weight: 800; color: var(--p-color);">Rp 0</span>
+                                    </div>
+                                </div>
+
+                                <div class="no-print" style="display: flex; gap: 10px; margin-top: 1rem;">
+                                    <button class="btn-success" onclick="finalisasiPembayaran()" style="flex: 2; padding: 12px; border-radius: 8px; cursor: pointer;">
+                                        <span class="material-icons-sharp">print</span> Simpan & Cetak
+                                    </button>
+                                    <button class="btn-danger" onclick="resetKeranjang()" style="flex: 1; background: #94a3b8; padding: 12px; border-radius: 8px;">
+                                        <span class="material-icons-sharp">delete</span>
+                                    </button>
+                                </div>
+                                
+                                <p style="text-align: center; font-size: 0.7rem; margin-top: 15px;" class="print-only">Terima Kasih Atas Kunjungan Anda!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-Laporan-Laba-Rugi" class="page-content" style="display:none;">
+                <div class="insights" style="margin-bottom: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem;">
+                    <div class="card glass-card" style="border-left: 5px solid var(--p-color);">
+                        <div class="card-info">
+                            <h3 style="font-size: 0.9rem; color: #64748b;">Total Omzet (Kotor)</h3>
+                            <h1 id="rep-omzet" style="margin: 0.5rem 0;">Rp 0</h1>
+                            <small class="text-muted">Total seluruh penjualan</small>
+                        </div>
+                    </div>
+                    <div class="card glass-card" style="border-left: 5px solid var(--s-color);">
+                        <div class="card-info">
+                            <h3 style="font-size: 0.9rem; color: #64748b;">Total Laba Bersih</h3>
+                            <h1 id="rep-laba" style="color: var(--s-color); margin: 0.5rem 0;">Rp 0</h1>
+                            <small id="rep-margin" style="font-weight: 600; color: var(--s-color);">Margin: 0%</small>
+                        </div>
+                    </div>
+                    <div class="card glass-card" style="border-left: 5px solid #f59e0b;">
+                        <div class="card-info">
+                            <h3 style="font-size: 0.9rem; color: #64748b;">Produk Terjual</h3>
+                            <h1 id="rep-terjual" style="margin: 0.5rem 0;">0</h1>
+                            <small class="text-muted">Total item keluar</small>
+                        </div>
+                    </div>
+                </div> 
+                <div class="card glass-card">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                        <h2><span class="material-icons-sharp">assessment</span> Riwayat Penjualan Detail</h2>
+                       <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="date" id="filter-tanggal" onchange="renderLaporan()" style="padding: 0.5rem; border-radius: 0.5rem; border: 1px solid #ddd;">
+                            <button class="btn-icon" onclick="resetFilter()" style="background: var(--p-color); color: white; border-radius: 0.5rem; padding: 5px;">
+                                <span class="material-icons-sharp">refresh</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Waktu & Tanggal</th>
+                                    <th>Nama Produk</th>
+                                    <th>Qty</th>
+                                    <th>Total Omzet</th>
+                                    <th>Modal Dasar</th>
+                                    <th>Laba Bersih</th>
+                                </tr>
+                            </thead>
+                            <tbody id="body-laporan"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-Biaya-Operasional" class="page-content" style="display:none;">
+                <div class="card glass-card">
+                    <div class="card-header">
+                        <h2><span class="material-icons-sharp">add_card</span> Input Pengeluaran</h2>
+                    </div>
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label>Kategori Biaya</label>
+                            <select id="operasional-nama" class="modern-select">
+                                <option value="">-- Pilih Kategori --</option>
+                                <option value="Transportasi">Transportasi (Bensin/Grab/Kurir)</option>
+                                <option value="Listrik & Air">Listrik & Air</option>
+                                <option value="Gaji Karyawan">Gaji Karyawan</option>
+                                <option value="Sewa Tempat">Sewa Tempat</option>
+                                <option value="Perlengkapan Toko">Perlengkapan (Plastik/Lakban/Nota)</option>
+                                <option value="Konsumsi">Konsumsi / Makan</option>
+                                <option value="Lain-lain">Lain-lain</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Catatan Tambahan (Opsional)</label>
+                            <input type="text" id="operasional-catatan" placeholder="Contoh: Beli bensin motor">
+                        </div>
+                        <div class="input-group">
+                            <label>Nominal (Rp)</label>
+                            <input type="number" id="operasional-jumlah" placeholder="0">
+                        </div>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <button class="btn-primary" onclick="addBiaya()">Simpan Pengeluaran</button>
+                    </div>
+                </div>
+
+                <div class="card glass-card" style="margin-top: 2rem;">
+                    <div class="card-header">
+                        <h2><span class="material-icons-sharp">history_edu</span> Riwayat Pengeluaran</h2>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Keterangan</th>
+                                    <th>Jumlah</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="body-operasional"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
